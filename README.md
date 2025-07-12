@@ -16,3 +16,5 @@ this is for the odoo hackathon problem
 > ## Contact  
 > Email: shreeya.sharma1605@gmail.com 
 > ```
+video link
+https://drive.google.com/file/d/1Ov-V6h4F_O6vI-QWh7WLuFIJCenahG38/view?usp=sharing
