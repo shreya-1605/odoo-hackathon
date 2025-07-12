@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Skill Listings | SkillSwap{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">Available Skills</h2>
+
+    {% if skills %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for skill in skills %}
+            <div class="col">
+                <div class="card h-100 shadow-sm border border-secondary-subtle">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ skill.title }}</h5>
+                        <p class="card-text">{{ skill.description }}</p>
+                        <p class="text-muted mb-2">
+                            <strong>Posted by:</strong> {{ skill.user.username }}<br>
+                            <strong>Category:</strong> {{ skill.category.name }}<br>
+                            <strong>Type:</strong> {% if skill.is_free %}Free{% else %}Paid{% endif %}<br>
+                            <strong>Posted on:</strong> {{ skill.created_at|date:"M d, Y" }}
+                        </p>
+
+                        {% if skill.user != user %}
+                        <a href="{% url 'initiate_swap' skill.id skill.user.id %}" class="btn btn-sm btn-outline-warning mt-2">
+                            🔁 Request Swap
+                        </a>
+                        {% else %}
+                        <span class="badge bg-success mt-2">Your Skill</span>
+                        {% endif %}
+
+                        {% if skill.feedbacks.exists %}
+                        <hr>
+                        <h6 class="mt-3">Feedback</h6>
+                        <ul class="list-group list-group-flush mb-2">
+                            {% for feedback in skill.feedbacks.all %}
+                            <li class="list-group-item">
+                                <strong>{{ feedback.user.username }}</strong> ({{ feedback.rating }}/5): {{ feedback.comment }}
+                                <br>
+                                <small class="text-muted">{{ feedback.created_at|date:"M d, Y H:i" }}</small>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="text-muted"><em>No feedback yet.</em></p>
+                        {% endif %}
+
+                        <a href="{% url 'leave_feedback' skill.id %}" class="btn btn-sm btn-outline-primary">💬 Leave Feedback</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No skills have been posted yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

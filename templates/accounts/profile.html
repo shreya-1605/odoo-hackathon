@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Your Profile | SkillSwap{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Profile Picture (Right Side on Large Screens) -->
+        <div class="col-md-4 order-md-2 text-center mb-4">
+            {% if user.profile.profile_picture %}
+                <img src="{{ user.profile.profile_picture.url }}" class="rounded-circle border border-secondary shadow" style="width: 150px; height: 150px; object-fit: cover;" alt="Profile Picture">
+                <p class="mt-2"><strong>{{ user.username }}</strong></p>
+            {% else %}
+                <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center" style="width: 150px; height: 150px;">
+                    <span class="text-muted">No Image</span>
+                </div>
+                <p class="mt-2"><strong>{{ user.username }}</strong></p>
+            {% endif %}
+        </div>
+
+        <!-- Profile Form -->
+        <div class="col-md-8 order-md-1">
+            <h2 class="mb-3">Update Your Profile</h2>
+            <form method="POST" enctype="multipart/form-data" class="p-4 rounded shadow bg-white">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-info">Update Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Skills Posted by User -->
+    <hr class="my-5">
+    <h3 class="mb-4">🛠️ Your Posted Skills</h3>
+
+    {% if skills %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for skill in skills %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ skill.title }}</h5>
+                        <p class="card-text">{{ skill.description }}</p>
+                        <p class="text-muted mb-1">
+                            <strong>Category:</strong> {{ skill.category.name }}<br>
+                            <strong>Type:</strong> {{ "Free" if skill.is_free else "Paid" }}<br>
+                            <strong>Posted on:</strong> {{ skill.created_at|date:"M d, Y" }}
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'edit_skill' skill.pk %}" class="btn btn-sm btn-outline-warning">✏️ Edit</a>
+                            <a href="{% url 'delete_skill' skill.pk %}" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">You haven't posted any skills yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

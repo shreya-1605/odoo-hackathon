@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>📦 All Swaps</h2>
+<a href="{% url 'add_swap' %}">➕ Add New Swap</a>
+<ul>
+    {% for swap in swaps %}
+    <li>
+        <strong>{{ swap.user.username }}</strong> offers 
+        <strong>{{ swap.offer }}</strong> for 
+        <strong>{{ swap.want }}</strong>
+        <p>{{ swap.description }}</p>
+
+        {% if swap.user == request.user %}
+            <a href="{% url 'delete_swap' swap.pk %}">🗑️ Delete</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

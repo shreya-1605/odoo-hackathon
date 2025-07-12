@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}{{ skill.title }} | SkillSwap{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title">{{ skill.title }}</h2>
+        <p class="card-text"><strong>Description:</strong> {{ skill.description }}</p>
+        <p class="card-text"><strong>Category:</strong> {{ skill.category }}</p>
+        <p class="card-text"><strong>Posted by:</strong> {{ skill.user.username }}</p>
+        <p class="card-text"><strong>Status:</strong> {{ "Free" if skill.is_free else "Paid" }}</p>
+
+        <a href="{% url 'skill_list' %}" class="btn btn-secondary mt-3">Back to Skills</a>
+
+        {% if skill.user == user %}
+        <div class="mt-2 d-flex gap-2">
+          <a href="{% url 'edit_skill' skill.pk %}" class="btn btn-warning">Edit</a>
+          <a href="{% url 'delete_skill' skill.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

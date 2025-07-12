@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Add Skill | SkillSwap{% endblock %}
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <h2 class="mb-4">Post a New Skill</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Publish Skill</button>
+        <a href="{% url 'skill_list' %}" class="btn btn-secondary ms-2">Back to Skills</a>
+    </form>
+</div>
+{% endblock %}

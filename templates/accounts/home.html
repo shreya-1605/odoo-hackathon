@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Home | SkillSwap{% endblock %}
+{% block content %}
+<div class="text-center">
+    <h1 class="display-4">Welcome to SkillSwap</h1>
+    <p class="lead">A platform to exchange skills and grow together!</p>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">Get Started</a>
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">Login</a>
+    </div>
+</div>
+{% endblock %}
